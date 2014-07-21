@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Accordion Sample Plugin</title>
+        <script src="http://code.jquery.com/jquery-2.1.1.js" type="text/javascript"></script>
+        <script src="plugin/vkk.cyb.accordion.js" type="text/javascript"></script>
+        <link type="text/css" rel="stylesheet" href="css/vkk.cyb.accordion.css"/>
+    </head>
+    
+    <style>
+		
+		.vkkCybAccordion {
+			float: left;
+			width: 400px;
+		}
+		
+		.vkkCybAccordion li, article {
+			background: #eaeaea;
+			cursor: pointer;
+			padding: 8px 4px;
+			font-size: 13px;
+			font-weight: bold;
+			list-style: none;
+			margin-bottom: 5px;
+		}
+				
+		/*when trying to apply new class, enclose that class into parent class*/
+		.vkkCybAccordion .activeTab {
+			background: #ACC8F0;
+		}
+		
+		.vkkCybAccordion p {
+			padding: 0px 8px;
+		}
+		
+	</style>    
+    
+    <body>
+    	
+        <ul class="vkkCybAccordion" id="accordion1">
+        	<article class="items" id="1">item1</article>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 1. Food courts at major stations
+                </p>
+            <article class="items" id="2">item2</article>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 2. Food courts at major stations
+                </p>
+            <article class="items" id="3">item3</article>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 3. Food courts at major stations
+                </p>
+            <article class="items" id="4">item4</article>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 4. Food courts at major stations
+                </p>
+        </ul>
+        
+    	<ul class="vkkCybAccordion" id="accordion2">
+        	<li class="items" id="1">item1</li>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 1. Food courts at major stations
+                </p>
+            <li class="items" id="2">item2</li>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 2. Food courts at major stations
+                </p>
+            <li class="items" id="3">item3</li>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 3. Food courts at major stations
+                </p>
+            <li class="items" id="4">item4</li>
+            	<p>Sadananda Gowda Highlights of Rail Budget include 4. Food courts at major stations
+                </p>
+        </ul>
+        
+    </body>
+    
+    <script>
+		function onComplete (obj) {
+			//alert('open item: ' + $(this).prev().get(0).id);
+			alert('open item: ' + $(this).prev().get(0).id);
+		}
+		
+		$('#accordion1').vkkCybAccordion({
+				tabElement: 'article', 
+				openDefault: true, 
+				defaultTabIndex: 2, 
+				animationTime: 200,
+				tabActiveClass: 'activeTab',
+				callbackFunt: onComplete
+			});
+			
+		$('#accordion2').vkkCybAccordion();
+	</script>
+</html>
