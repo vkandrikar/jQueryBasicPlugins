@@ -23,7 +23,7 @@ if (typeof Object.create !== "function") {
 			self.el = $(el);
 			self.options = $.extend({}, $.fn.vkkCybCarousel.options, options);
 			
-			if (self.isAllOk()) {
+			//if (self.isAllOk()) {
 				if (self.options.jsonPath) {			
 					self.loadContent();
 				} else {
@@ -31,6 +31,8 @@ if (typeof Object.create !== "function") {
 				}
 				self.customEvents();
 				
+				
+				// this block of code use to check window resize after 250 ms
 				var resizeInterval;
 				$(window).resize( function() {
 					clearTimeout(resizeInterval);
@@ -38,7 +40,7 @@ if (typeof Object.create !== "function") {
 						self.update();
 					}, 250);
 				});		
-			} 
+			//} 
 		},//end of funt
 		
 		isAllOk: function () {
@@ -113,7 +115,7 @@ if (typeof Object.create !== "function") {
 			var scrollDistance = this.scrollCount*(displayWidth+opt.liGap);
 			
 			if (opt.noOfItemToMove != 0) {
-				scrollDistance = this.scrollCount*opt.noOfItemToMove*(this.el.find('.itemVCC').width()+opt.liGap) ;
+				scrollDistance = this.scrollCount*opt.noOfItemToMove*(this.el.find('.itemVCC').outerWidth()+opt.liGap) ;
 			}			
 			
 			var maxDistance = this.totalWidth - displayWidth;						
@@ -128,7 +130,7 @@ if (typeof Object.create !== "function") {
 			var opt = self.options;
 			
 			if (opt.thumbDisplayCount != 0) {
-				var width = ((self.el.find('.itemVCC').width() + opt.liGap) * opt.thumbDisplayCount) - opt.liGap;
+				var width = ((self.el.find('.itemVCC').outerWidth() + opt.liGap) * opt.thumbDisplayCount) - opt.liGap;
 				self.el.css('width', width+'px');//;
 			}
 			
@@ -138,21 +140,28 @@ if (typeof Object.create !== "function") {
 			}
 			
 			this.calculateMaxScrollCount();
-			this.resetNavBtn();
 			
-			$(opt.prevBtn).on('click', function () {self.handleNavigationBtnClick('prev')});
-			$(opt.nextBtn).on('click', function () {self.handleNavigationBtnClick('next')});
+			if (opt.prevBtn && opt.nextBtn) {
+				this.resetNavBtn();
+				
+				$(opt.prevBtn).on('click', function () {self.handleNavigationBtnClick('prev')});
+				$(opt.nextBtn).on('click', function () {self.handleNavigationBtnClick('next')});
+			} else {
+				self.el.find('.maskVCC').css({'overflow-x': 'scroll', 'overflow-y': 'hidden'});
+			}
 		},//end of funt
 		
 		resetNavBtn: function () {
 			var self = this;
 			var opt = self.options;
 			
-			$(opt.prevBtn).addClass('deactiveNavBtn');
-			$(opt.nextBtn).removeClass('deactiveNavBtn');
-			
-			if (self.maxScrollCount == 0) 
-				$(opt.nextBtn).addClass('deactiveNavBtn');
+			if (opt.prevBtn && opt.nextBtn) {
+				$(opt.prevBtn).addClass('deactiveNavBtn');
+				$(opt.nextBtn).removeClass('deactiveNavBtn');
+				
+				if (self.maxScrollCount == 0) 
+					$(opt.nextBtn).addClass('deactiveNavBtn');
+			}
 		},
 		
 		calculateMaxScrollCount: function () {
@@ -162,7 +171,7 @@ if (typeof Object.create !== "function") {
 				this.maxScrollCount = Math.floor((this.totalWidth-(this.el.find('.itemVCC').length*opt.liGap))/this.el.find('.maskVCC').width());
 			} else {
 				var displayWidth = this.el.find('.maskVCC').width();
-				this.maxScrollCount = Math.ceil((this.totalWidth - displayWidth)/((this.el.find('.itemVCC').width()+opt.liGap)*opt.noOfItemToMove));
+				this.maxScrollCount = Math.ceil((this.totalWidth - displayWidth)/((this.el.find('.itemVCC').outerWidth() + opt.liGap) * opt.noOfItemToMove));
 			}		
 			//console.log("maxScrollCount: "+this.maxScrollCount)	
 		},//end of funt
@@ -180,7 +189,7 @@ if (typeof Object.create !== "function") {
 				///self.el.find('.maskVCC').css('height', self.el.find('.itemVCC').height()+'px');
 							
 				self.el.find('.itemVCC').each(function (i, item) {
-					$(item).css('left', ($(item).width() + opt.liGap)*i);					
+					$(item).css('left', ($(item).outerWidth() + opt.liGap)*i);		
 				});
 			}
 			
@@ -188,8 +197,8 @@ if (typeof Object.create !== "function") {
 			var interval = setInterval( function () {
 				if (li.find('img').height() > 0 || li.find('img').height() == null) {
 					clearInterval(interval);
-					self.el.css('height', li.height()+'px');					
-					self.totalWidth = ((li.width() + opt.liGap) * li.size()) - opt.liGap;					
+					self.el.css('height', li.outerHeight()+'px');					
+					self.totalWidth = ((li.outerWidth() + opt.liGap + 0.1) * li.size()) - opt.liGap;					
 					self.applyCustomSetting();
 				}
 			}, 100);
