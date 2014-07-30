@@ -186,12 +186,12 @@ if (typeof Object.create !== "function") {
 			
 			if (data != null) {
 				self.el.append('<div class="maskVCC"></div>').find('.maskVCC').append('<ul></ul>').find('ul').append(data);			
-				///self.el.find('.maskVCC').css('height', self.el.find('.itemVCC').height()+'px');
-							
-				self.el.find('.itemVCC').each(function (i, item) {
-					$(item).css('left', ($(item).outerWidth() + opt.liGap)*i);		
-				});
+				///self.el.find('.maskVCC').css('height', self.el.find('.itemVCC').height()+'px');				
 			}
+			
+			self.el.find('.itemVCC').each(function (i, item) {
+				$(item).css('left', ($(item).outerWidth() + opt.liGap)*i);		
+			});
 			
 			var li = self.el.find('.maskVCC').find('li');
 			var interval = setInterval( function () {
