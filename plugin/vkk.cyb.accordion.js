@@ -32,7 +32,7 @@
 			$(this).siblings(setting.tabElement).removeClass(setting.tabActiveClass);
 			
 			$(this).toggleClass( setting.tabActiveClass );
-			$(this).next().slideToggle(setting.animationTime, 'linear', onContentShown);
+			$(this).next().stop().slideToggle(setting.animationTime, 'linear', onContentShown);
 						
 			//ensures that any title bar that is clicked does not exhibit its usual behavior
 			return false;

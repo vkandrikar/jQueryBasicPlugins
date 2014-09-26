@@ -12,13 +12,13 @@ if (typeof Object.create !== "function") {
 (function ($) {
 	'use strict';
 	
+	var carousel;
 	var myCarousel = {
 		scrollCount: 0,
 		maxScrollCount: 0,
 		totalWidth: 0,
 		
 		init: function (options, el) {
-			console.log('*** INIT CAROUSEL ***');
 			var self = this;
 			self.el = $(el);
 			self.options = $.extend({}, $.fn.vkkCybCarousel.options, options);
@@ -81,7 +81,6 @@ if (typeof Object.create !== "function") {
 		
 		handleNavigationBtnClick: function (btn) {
 			var opt = this.options;
-			
 			if (btn === 'next') {				
 				if (this.scrollCount < this.maxScrollCount) {
 					this.scrollCount++;
@@ -139,7 +138,7 @@ if (typeof Object.create !== "function") {
 				self.el.find('.itemVCC').on('click', function () {self.handleItemClick(this)});
 			}
 			
-			this.calculateMaxScrollCount();
+			self.update();
 			
 			if (opt.prevBtn && opt.nextBtn) {
 				this.resetNavBtn();
@@ -166,13 +165,20 @@ if (typeof Object.create !== "function") {
 		
 		calculateMaxScrollCount: function () {
 			var opt = this.options;
+			var displayWidth = this.el.find('.maskVCC').width();
 			
-			if (opt.noOfItemToMove == 0) {
-				this.maxScrollCount = Math.floor((this.totalWidth-(this.el.find('.itemVCC').length*opt.liGap))/this.el.find('.maskVCC').width());
+			if (displayWidth < this.totalWidth) {
+				if (opt.noOfItemToMove == 0) {
+					this.maxScrollCount = Math.floor((this.totalWidth-(this.el.find('.itemVCC').length*opt.liGap))/displayWidth);
+				} else {				
+					this.maxScrollCount = Math.ceil((this.totalWidth - displayWidth)/((this.el.find('.itemVCC').outerWidth() + opt.liGap) * opt.noOfItemToMove));
+				}	
+				if (this.maxScrollCount == 0) {
+					this.maxScrollCount = 1;
+				}	
 			} else {
-				var displayWidth = this.el.find('.maskVCC').width();
-				this.maxScrollCount = Math.ceil((this.totalWidth - displayWidth)/((this.el.find('.itemVCC').outerWidth() + opt.liGap) * opt.noOfItemToMove));
-			}		
+				this.maxScrollCount = 0;
+			}
 			//console.log("maxScrollCount: "+this.maxScrollCount)	
 		},//end of funt
 		
@@ -188,6 +194,8 @@ if (typeof Object.create !== "function") {
 				self.el.append('<div class="maskVCC"></div>').find('.maskVCC').append('<ul></ul>').find('ul').append(data);			
 				///self.el.find('.maskVCC').css('height', self.el.find('.itemVCC').height()+'px');				
 			}
+			
+			self.el.find('ul').css('left', '0px');
 			
 			self.el.find('.itemVCC').each(function (i, item) {
 				$(item).css('left', ($(item).outerWidth() + opt.liGap)*i);		
@@ -215,7 +223,10 @@ if (typeof Object.create !== "function") {
 	}//end of obj
 	
 	$.fn.vkkCybCarousel = function (options) {		
-		var carousel = Object.create(myCarousel);
+		if (!$(this).hasClass("vkkCybCarouselInit")) {
+			$(this).addClass("vkkCybCarouselInit");	
+			carousel = Object.create(myCarousel);
+		}
 		carousel.init(options, this);	
 		
 		return this;	

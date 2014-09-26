@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Parallax Sample</title>
+        <link rel="stylesheet" type="text/css" href="css/vkk.cyb.parallax.css">
+        <script src="plugin/jquery-2.1.1.js"></script>
+        <script src="plugin/vkk.cyb.parallax.js"></script>
+    </head>
+    
+    <style>
+		#first .innerContent {
+			width: 60%;
+			float: left;
+			padding-top: 10%;
+			padding-left: 10%;
+		}
+	</style>
+    
+    <body>
+    	<div id="mainContainer">                        
+            <div id="pageSection">
+                <section id="first" class="parallaxSection">
+                	<div class="innerContent">
+                        <h2>(Almost) Static Background</h2>
+                        <p>This section has a background that moves slightly slower than the user scrolls. This is achieved by changing the top position of the background for every pixel the page is scrolled.</p>
+                    </div>
+                </section>
+                
+                <section id="second" class="parallaxSection">
+                </section>
+                
+                <section id="third" class="parallaxSection">
+                </section>
+                
+                <section id="fourth" class="parallaxSection">
+                </section>
+            </div>
+        </div>
+    </body>
+    
+    <script>
+		function handleNavClick (index) {
+			var pos = 0;
+			if (page > 1) {
+				pos = $('#page' + (index - 1)).outerHeight();
+			}
+			
+		}
+		
+		var speedFactor = 0.1;
+		$(document).ready(function(){
+			$('#first').vkkCybParallax({speedFactor: 0.2});
+			$('#second').vkkCybParallax({speedFactor: 0.5});
+			$('#third').vkkCybParallax({speedFactor: 0.2});
+			$('#fourth').vkkCybParallax({speedFactor: 0.2});
+			
+			/*$('#pageSection').children().each(function (index) {
+				//console.log(index)
+				var currentPos = 0;
+				//if (index > 0) {
+					currentPos = index * 50;
+				//}
+				//$(this).css('background-position-y', currentPos);   
+			}); 
+			
+			var firstTop = $('#pageSection').position().top;
+			var windowHeight = $(window).height();
+			
+			$(window).scroll(function(){
+				var pos = $(window).scrollTop();
+				
+				$('#first').each(function (index) {
+					//var currentPos = $(this).css('background-position-y').split('px')[0];
+					//console.log(pos)
+                	//$(this).css('background-position-y', currentPos-(pos/10));
+					
+					var top = $(this).position().top;
+					var height = $(this).outerHeight();
+	
+					// Check if totally above or totally below viewport
+					if (top + height < pos || top > pos + windowHeight) {
+						return;
+					}
+					$(this).css('background-position-y', Math.round((firstTop - pos) * speedFactor));
+                }); 
+			});*/
+		});
+	</script>
+</html>

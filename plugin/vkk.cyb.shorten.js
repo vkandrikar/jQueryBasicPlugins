@@ -6,7 +6,7 @@ if (typeof Object.create !== "function") {
     };
 }
 
-( function ($) {
+(function ($) {
 	'use strict';
 	
 	var Shorten = {
