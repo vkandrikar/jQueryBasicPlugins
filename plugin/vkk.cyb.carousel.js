@@ -2,8 +2,8 @@
 
 if (typeof Object.create !== "function") {
     Object.create = function (obj) {
-        function objCreator () {
-		}
+        function objCreator () {}
+        
         objCreator.prototype = obj;
         return new objCreator ();
     };

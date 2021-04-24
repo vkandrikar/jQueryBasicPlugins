@@ -43,8 +43,8 @@
 }( jQuery ));
 */
 
-(function($) {
-    $.fn.samplePlugin = function(options) {			
+(function(jq) {
+    jq.fn.samplePlugin = function(options) {			
 		var setting = $.extend({}, {
 			name: 'vijay',
 			location: 'CT2',
@@ -53,11 +53,11 @@
 			callbackFunt: null
 		}, options);
 				
-		$(this).text(setting.name);
-		$(this).css('color', setting.fontColor);
+		jq(this).text(setting.name);
+		jq(this).css('color', setting.fontColor);
 		
 		return this.each(function () {
-			if ($.isFunction(setting.callbackFunt)) {
+			if (jq.isFunction(setting.callbackFunt)) {
 				setting.callbackFunt.call(this, setting);
 			}
 		});

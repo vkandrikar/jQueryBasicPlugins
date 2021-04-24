@@ -19,12 +19,12 @@ if (typeof Object.create !== "function") {
 	}//end of obj
 	
 	$.fn.vkkCybPunginName = function (userParam) {
-		var pluginInstance = Object.create(Parallax);
+		var pluginInstance = Object.create(PluginObject);
 		pluginInstance.init(userParam, this);
 		return this;
 	}
 	
-	$.fn.vkkCybParallax.options = {
+	$.fn.vkkCybPunginName.options = {
 		
 	}
 })(jQuery);
